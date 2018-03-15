@@ -1,0 +1,6 @@
+com/intuit/rest/model/Payment.class
+com/intuit/rest/model/Payee.class
+com/intuit/rest/service/PayeeService.class
+com/intuit/rest/model/PaymentMethod.class
+com/intuit/rest/App.class
+com/intuit/rest/route/PaymentRoute.class
