@@ -21,7 +21,7 @@
     <jooby.version>1.3.0</jooby.version>
 
     <!-- Startup class -->
-    <application.class>com.intuit.rest.App</application.class>
+    <application.class>com.intuit.App</application.class>
   </properties>
 
   <dependencies>
@@ -56,13 +56,53 @@
       <version>1.3.0</version>
     </dependency>
 
-    <!-- rabbit mq -->
-    <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+    <!-- message queue -->
     <dependency>
-      <groupId>com.rabbitmq</groupId>
-      <artifactId>amqp-client</artifactId>
-      <version>5.2.0</version>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>1.0.1</version>
     </dependency>
+
+
+    <!-- timer -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-quartz</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-jdbc</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-jooq</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.7</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -72,7 +112,302 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
       </plugin>
+      <plugin>
+        <!-- Specify the maven code generator plugin -->
+        <!-- Use org.jooq            for the Open Source Edition
+                 org.jooq.pro        for commercial editions,
+                 org.jooq.pro-java-6 for commercial editions with Java 6 support,
+                 org.jooq.trial      for the free trial edition
+
+             Note: Only the Open Source Edition is hosted on Maven Central.
+                   Import the others manually from your distribution -->
+        <groupId>org.jooq</groupId>
+        <artifactId>jooq-codegen-maven</artifactId>
+        <version>3.7.3</version>
+
+        <executions>
+          <execution>
+            <id>jooq-codegen</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <logging>ERROR</logging>
+              <!-- Configure the database connection here -->
+              <jdbc>
+                <driver>com.mysql.jdbc.Driver</driver>
+                <url>jdbc:mysql://localhost:3306/paymentdb</url>
+                <user>one</user>
+                <password>one</password>
+
+                <!-- You can also pass user/password and other JDBC properties in the optional properties tag: -->
+                <properties>
+                  <property><key>user</key><value>one</value></property>
+                  <property><key>password</key><value>one</value></property>
+                </properties>
+              </jdbc>
+
+              <generator>
+                <database>
+                  <!--<includeTables>false</includeTables>-->
+                  <!--<includeRoutines>false</includeRoutines>-->
+                  <!--<includePackages>false</includePackages>-->
+                  <!--<includeUDTs>false</includeUDTs>-->
+                  <!--<includeSequences>false</includeSequences>-->
+                  <!--<includePrimaryKeys>false</includePrimaryKeys>-->
+                  <!--<includeUniqueKeys>false</includeUniqueKeys>-->
+                  <!--<includeForeignKeys>false</includeForeignKeys>-->
+                  <!-- The database dialect from jooq-meta. Available dialects are
+                       named org.util.[database].[database]Database.
+
+                       Natively supported values are:
+
+                           org.jooq.util.ase.ASEDatabase
+                           org.jooq.util.cubrid.CUBRIDDatabase
+                           org.jooq.util.db2.DB2Database
+                           org.jooq.util.derby.DerbyDatabase
+                           org.jooq.util.firebird.FirebirdDatabase
+                           org.jooq.util.h2.H2Database
+                           org.jooq.util.hsqldb.HSQLDBDatabase
+                           org.jooq.util.informix.InformixDatabase
+                           org.jooq.util.ingres.IngresDatabase
+                           org.jooq.util.mariadb.MariaDBDatabase
+                           org.jooq.util.mysql.MySQLDatabase
+                           org.jooq.util.oracle.OracleDatabase
+                           org.jooq.util.postgres.PostgresDatabase
+                           org.jooq.util.sqlite.SQLiteDatabase
+                           org.jooq.util.sqlserver.SQLServerDatabase
+                           org.jooq.util.sybase.SybaseDatabase
+
+                       This value can be used to reverse-engineer generic JDBC DatabaseMetaData (e.g. for MS Access)
+
+                           org.jooq.util.jdbc.JDBCDatabase
+
+                       This value can be used to reverse-engineer standard jOOQ-meta XML formats
+
+                           org.jooq.util.xml.XMLDatabase
+
+                       You can also provide your own org.jooq.util.Database implementation
+                       here, if your database is currently not supported -->
+                  <name>org.jooq.util.mysql.MySQLDatabase</name>
+
+                  <!-- All elements that are generated from your schema (A Java regular expression.
+                       Use the pipe to separate several expressions) Watch out for
+                       case-sensitivity. Depending on your database, this might be
+                       important!
+
+                       You can create case-insensitive regular expressions using this syntax: (?i:expr)
+
+                       Whitespace is ignored and comments are possible.
+                       -->
+                  <includes>.*</includes>
+
+                  <!-- All elements that are excluded from your schema (A Java regular expression.
+                       Use the pipe to separate several expressions). Excludes match before
+                       includes, i.e. excludes have a higher priority -->
+                  <excludes>
+                  </excludes>
+
+                  <!-- The schema that is used locally as a source for meta information.
+                       This could be your development schema or the production schema, etc
+                       This cannot be combined with the schemata element.
+
+                       If left empty, jOOQ will generate all available schemata. See the
+                       manual's next section to learn how to generate several schemata -->
+                  <!-- This flag indicates whether include / exclude patterns should also match
+      columns within tables. -->
+                  <includeExcludeColumns>true</includeExcludeColumns>
+
+                  <!-- All table and view columns that are used as "version" fields for
+                       optimistic locking (A Java regular expression. Use the pipe to separate several expressions).
+                       See UpdatableRecord.store() and UpdatableRecord.delete() for details -->
+                  <recordVersionFields>REC_VERSION</recordVersionFields>
+
+                  <!-- All table and view columns that are used as "timestamp" fields for
+                       optimistic locking (A Java regular expression. Use the pipe to separate several expressions).
+                       See UpdatableRecord.store() and UpdatableRecord.delete() for details -->
+                  <recordTimestampFields>REC_TIMESTAMP</recordTimestampFields>
+
+                  <!-- A regular expression matching all columns that participate in "synthetic" primary keys,
+                       which should be placed on generated UpdatableRecords, to be used with
+
+                        - UpdatableRecord.store()
+                        - UpdatableRecord.update()
+                        - UpdatableRecord.delete()
+                        - UpdatableRecord.refresh()
+
+                       Synthetic primary keys will override existing primary keys. -->
+                  <!--<syntheticPrimaryKeys>SCHEMA\.TABLE\.COLUMN(1|2)</syntheticPrimaryKeys>-->
+
+                  <!-- All (UNIQUE) key names that should be used instead of primary keys on
+                       generated UpdatableRecords, to be used with
+
+                        - UpdatableRecord.store()
+                        - UpdatableRecord.update()
+                        - UpdatableRecord.delete()
+                        - UpdatableRecord.refresh()
+
+                        If several keys match, a warning is emitted and the first one encountered will be used.
+
+                        This flag will also replace synthetic primary keys, if it matches. -->
+                  <!--<overridePrimaryKeys>id</overridePrimaryKeys>-->
+
+                  <!-- Generate java.sql.Timestamp fields for DATE columns. This is
+                       particularly useful for Oracle databases.
+                       Defaults to false -->
+                  <dateAsTimestamp>false</dateAsTimestamp>
+
+                  <!-- Generate jOOU data types for your unsigned data types, which are
+                       not natively supported in Java.
+                       Defaults to true -->
+                  <unsignedTypes>true</unsignedTypes>
+
+                  <!-- The schema that is used in generated source code. This will be the
+                       production schema. Use this to override your local development
+                       schema name for source code generation. If not specified, this
+                       will be the same as the input-schema.
+
+                       This will be ignored if outputSchemaToDefault is set to true -->
+                  <outputSchema>true</outputSchema>
+
+                  <!-- A flag to indicate that the outputSchema should be the "default" schema,
+                       which generates schema-less, unqualified tables, procedures, etc. -->
+                  <outputSchemaToDefault>false</outputSchemaToDefault>
+
+                  <forcedTypes>
+                    <forcedType>
+                      <!-- Specify any data type from org.jooq.impl.SQLDataType -->
+                      <name>BOOLEAN</name>
+                      <name>STRING</name>
+                      <name>INTEGER</name>
+                      <name>NUMERIC</name>
+                      <name>DOUBLE</name>
+
+                      <!-- Add a Java regular expression matching fully-qualified columns. Use the pipe to separate several expressions.
+
+                           If provided, both "expressions" and "types" must match. -->
+                      <expression>.*\.IS_VALID</expression>
+
+                      <!-- Add a Java regular expression matching data types to be forced to have this type.
+
+                           Data types may be reported by your database as:
+                           - NUMBER              regexp suggestion: NUMBER
+                           - NUMBER(5)           regexp suggestion: NUMBER\(5\)
+                           - NUMBER(5, 2)        regexp suggestion: NUMBER\(5,\s*2\)
+                           - any other form.
+
+                           It is thus recommended to use defensive regexes for types.
+
+                           If provided, both "expressions" and "types" must match. -->
+                      <types>.*</types>
+                    </forcedType>
+                  </forcedTypes>
+                </database>
+
+                <generate>
+                  <!-- Primary key / foreign key relations should be generated and used.
+                       This is a prerequisite for various advanced features.
+                       Defaults to true -->
+                  <relations>true</relations>
+
+                  <!-- Generate deprecated code for backwards compatibility
+                       Defaults to true -->
+                  <deprecated>false</deprecated>
+
+                  <!-- Do not reuse this property. It is deprecated as of jOOQ 3.3.0 -->
+                  <instanceFields>true</instanceFields>
+
+                  <!-- Generate the javax.annotation.Generated annotation to indicate
+                       jOOQ version used for source code.
+                       Defaults to true -->
+                  <generatedAnnotation>true</generatedAnnotation>
+
+                  <!-- Generate jOOQ Record classes for type-safe querying. You can
+                       turn this off, if you don't need "active records" for CRUD
+                       Defaults to true -->
+                  <records>true</records>
+
+                  <!-- Generate POJOs in addition to Record classes for usage of the
+                       ResultQuery.fetchInto(Class) API
+                       Defaults to false -->
+                  <pojos>true</pojos>
+
+                  <!-- Generate immutable POJOs for usage of the ResultQuery.fetchInto(Class) API
+                       This overrides any value set in <pojos/>
+                       Defaults to false -->
+                  <immutablePojos>false</immutablePojos>
+
+                  <!-- Generate interfaces that will be implemented by records and/or pojos.
+                       You can also use these interfaces in Record.into(Class<?>) and similar
+                       methods, to let jOOQ return proxy objects for them.
+                       Defaults to false -->
+                  <interfaces>true</interfaces>
+
+                  <!-- Generate DAOs in addition to POJO classes
+                       Defaults to false -->
+                  <daos>true</daos>
+
+                  <!-- Annotate POJOs and Records with JPA annotations for increased
+                       compatibility and better integration with JPA/Hibernate, etc
+                       Defaults to false -->
+                  <jpaAnnotations>false</jpaAnnotations>
+
+                  <!-- Annotate POJOs and Records with JSR-303 validation annotations
+                       Defaults to false -->
+                  <validationAnnotations>false</validationAnnotations>
+
+                  <!-- Annotate DAOs with useful spring annotations such as @Repository or @Autowired
+                       Defaults to false -->
+                  <springAnnotations>false</springAnnotations>
+
+                  <!-- Allow to turn off the generation of global object references, which include
+
+                       - Tables.java
+                       - Sequences.java
+                       - UDTs.java
+
+                       Turning off the generation of the above files may be necessary for very
+                       large schemas, which exceed the amount of allowed constants in a class's
+                       constant pool (64k) or, whose static initialiser would exceed 64k of
+                       byte code
+
+                       Defaults to true -->
+                  <globalObjectReferences>true</globalObjectReferences>
+
+                  <!-- Generate fluent setters in
+
+                       - records
+                       - pojos
+                       - interfaces
+
+                       Fluent setters are against the JavaBeans specification, but can be quite
+                       useful to those users who do not depend on EL, JSP, JSF, etc.
+
+                       Defaults to false -->
+                  <fluentSetters>false</fluentSetters>
+                </generate>
+
+                <target>
+                  <!-- The destination package of your generated classes (within the
+                       destination directory)
+
+                       jOOQ may append the schema name to this package if generating multiple schemas,
+                       e.g. org.jooq.your.packagename.schema1
+                            org.jooq.your.packagename.schema2 -->
+                  <packageName>com.intuit.datasource.jooq</packageName>
+
+                  <!-- The destination directory of your generated classes -->
+                  <directory>target/generated-sources/jooq</directory>
+                </target>
+              </generator>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
+
 
 </project>

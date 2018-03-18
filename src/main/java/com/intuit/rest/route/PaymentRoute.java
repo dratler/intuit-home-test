@@ -1,12 +1,14 @@
 package com.intuit.rest.route;
 
-import com.intuit.moduls.RabbitMq;
-import com.intuit.mq.service.MqPaymentController;
-import com.intuit.rest.controller.PayeeController;
-import com.intuit.rest.controller.PaymentMethodController;
+import com.intuit.controller.PayeeController;
+import com.intuit.controller.PaymentController;
+import com.intuit.controller.PaymentMethodController;
+import com.intuit.model.Payment;
 import org.jooby.Result;
 import org.jooby.Results;
+import org.jooby.mvc.Body;
 import org.jooby.mvc.GET;
+import org.jooby.mvc.POST;
 import org.jooby.mvc.Path;
 
 import javax.inject.Inject;
@@ -21,14 +23,11 @@ public class PaymentRoute {
     private PaymentMethodController paymentMethodController;
 
     @Inject
-    private MqPaymentController rabbitMq;
+    private PaymentController   paymentController;
 
-
-    //TODO - build services + controller for the API's
     @Path("/method")
     @GET
     public Result getPaymentMethods() {
-        rabbitMq.sendMessage("Hi");
         return Results.json(paymentMethodController.getMethods());
 
 
@@ -37,7 +36,18 @@ public class PaymentRoute {
     @Path("/payee")
     @GET
     public Result getPayee() {
-        rabbitMq.sendMessage("Hi");
         return Results.json(payeeController.getPayee());
     }
+
+    @POST
+    public Result createPayment(@Body Payment payment){
+        try{
+            paymentController.validEntry(payment);
+        } catch (Exception e){
+            return Results.json(e).status(400);
+        }
+        paymentController.sendToQueue(payment);
+        return Results.noContent();
+    }
+
 }

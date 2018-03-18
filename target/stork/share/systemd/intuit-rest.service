@@ -1,0 +1,16 @@
+[Unit]
+Description=intuit-rest
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/default/intuit-rest
+ExecStart=/opt/intuit-rest/bin/intuit-rest --exec
+ExecStop=/opt/intuit-rest/bin/intuit-rest --stop
+PIDFile=/opt/intuit-rest/run/intuit-rest.pid
+KillMode=process
+Restart=on-failure
+User=
+Group=
+
+[Install]
+WantedBy=multi-user.target
