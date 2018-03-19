@@ -4,7 +4,9 @@ installation manual
 2 Install Kafka (With Zookeeper):
     run the following command
     '
-     ~/development/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic payment-topic --from-beginning
+    bin/zookeeper-server-start.sh config/zookeeper.properties
+    bin/kafka-server-start.sh config/server.properties
+         ~/development/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:9092 --topic payment-topic --from-beginning
     '
 3.Create topic 'payment-topic'
 4.Install Mysql via docker :

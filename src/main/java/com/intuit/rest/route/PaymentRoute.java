@@ -42,7 +42,7 @@ public class PaymentRoute {
     @POST
     public Result createPayment(@Body Payment payment){
         try{
-            paymentController.validEntry(payment);
+            paymentController.validEntry(payment,true);
         } catch (Exception e){
             return Results.json(e).status(400);
         }
