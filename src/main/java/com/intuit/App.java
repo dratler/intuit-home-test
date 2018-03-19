@@ -1,7 +1,7 @@
 package com.intuit;
 
 import com.intuit.engine.Scheduler;
-import com.intuit.moduls.KafkaConsumer;
+import com.intuit.moduls.KafkaConsumerProps;
 import com.intuit.moduls.KafkaProducer;
 import com.intuit.rest.route.PaymentRoute;
 import org.jooby.Jooby;
@@ -21,7 +21,7 @@ public class App extends Jooby {
         //Modules
         //This is the Message Queue Modules
         use(new KafkaProducer());
-        use(new KafkaConsumer());
+        use(new KafkaConsumerProps());
 
         //Parser
         use(new Gzon());
@@ -32,6 +32,9 @@ public class App extends Jooby {
         //Database
         use(new Jdbc());
         use(new jOOQ());
+
+        //Adding Mock Data
+        assets("/json/**");
 
     }
 

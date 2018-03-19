@@ -6,6 +6,8 @@ package com.intuit.datasource.jooq.paymentdb.tables.pojos;
 
 import com.intuit.datasource.jooq.paymentdb.tables.interfaces.IPaymentTransaction;
 
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
 
 import org.jooq.types.UInteger;
@@ -24,44 +26,52 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PaymentTransaction implements IPaymentTransaction {
 
-	private static final long serialVersionUID = 943719339;
+	private static final long serialVersionUID = -2002354955;
 
-	private UInteger id;
-	private Double   amount;
-	private UInteger cId;
-	private UInteger uId;
-	private UInteger pId;
-	private UInteger pMId;
-	private Byte     isTransactionApproved;
+	private UInteger  id;
+	private Double    amount;
+	private String    currency;
+	private String    userId;
+	private String    payeeId;
+	private String    paymentMethodId;
+	private Byte      isTransactionApproved;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 
 	public PaymentTransaction() {}
 
 	public PaymentTransaction(PaymentTransaction value) {
 		this.id = value.id;
 		this.amount = value.amount;
-		this.cId = value.cId;
-		this.uId = value.uId;
-		this.pId = value.pId;
-		this.pMId = value.pMId;
+		this.currency = value.currency;
+		this.userId = value.userId;
+		this.payeeId = value.payeeId;
+		this.paymentMethodId = value.paymentMethodId;
 		this.isTransactionApproved = value.isTransactionApproved;
+		this.createdAt = value.createdAt;
+		this.updatedAt = value.updatedAt;
 	}
 
 	public PaymentTransaction(
-		UInteger id,
-		Double   amount,
-		UInteger cId,
-		UInteger uId,
-		UInteger pId,
-		UInteger pMId,
-		Byte     isTransactionApproved
+		UInteger  id,
+		Double    amount,
+		String    currency,
+		String    userId,
+		String    payeeId,
+		String    paymentMethodId,
+		Byte      isTransactionApproved,
+		Timestamp createdAt,
+		Timestamp updatedAt
 	) {
 		this.id = id;
 		this.amount = amount;
-		this.cId = cId;
-		this.uId = uId;
-		this.pId = pId;
-		this.pMId = pMId;
+		this.currency = currency;
+		this.userId = userId;
+		this.payeeId = payeeId;
+		this.paymentMethodId = paymentMethodId;
 		this.isTransactionApproved = isTransactionApproved;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 	@Override
@@ -85,43 +95,43 @@ public class PaymentTransaction implements IPaymentTransaction {
 	}
 
 	@Override
-	public UInteger getCId() {
-		return this.cId;
+	public String getCurrency() {
+		return this.currency;
 	}
 
 	@Override
-	public void setCId(UInteger cId) {
-		this.cId = cId;
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	@Override
-	public UInteger getUId() {
-		return this.uId;
+	public String getUserId() {
+		return this.userId;
 	}
 
 	@Override
-	public void setUId(UInteger uId) {
-		this.uId = uId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	@Override
-	public UInteger getPId() {
-		return this.pId;
+	public String getPayeeId() {
+		return this.payeeId;
 	}
 
 	@Override
-	public void setPId(UInteger pId) {
-		this.pId = pId;
+	public void setPayeeId(String payeeId) {
+		this.payeeId = payeeId;
 	}
 
 	@Override
-	public UInteger getPMId() {
-		return this.pMId;
+	public String getPaymentMethodId() {
+		return this.paymentMethodId;
 	}
 
 	@Override
-	public void setPMId(UInteger pMId) {
-		this.pMId = pMId;
+	public void setPaymentMethodId(String paymentMethodId) {
+		this.paymentMethodId = paymentMethodId;
 	}
 
 	@Override
@@ -135,16 +145,38 @@ public class PaymentTransaction implements IPaymentTransaction {
 	}
 
 	@Override
+	public Timestamp getCreatedAt() {
+		return this.createdAt;
+	}
+
+	@Override
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@Override
+	public Timestamp getUpdatedAt() {
+		return this.updatedAt;
+	}
+
+	@Override
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("PaymentTransaction (");
 
 		sb.append(id);
 		sb.append(", ").append(amount);
-		sb.append(", ").append(cId);
-		sb.append(", ").append(uId);
-		sb.append(", ").append(pId);
-		sb.append(", ").append(pMId);
+		sb.append(", ").append(currency);
+		sb.append(", ").append(userId);
+		sb.append(", ").append(payeeId);
+		sb.append(", ").append(paymentMethodId);
 		sb.append(", ").append(isTransactionApproved);
+		sb.append(", ").append(createdAt);
+		sb.append(", ").append(updatedAt);
 
 		sb.append(")");
 		return sb.toString();
@@ -161,11 +193,13 @@ public class PaymentTransaction implements IPaymentTransaction {
 	public void from(IPaymentTransaction from) {
 		setId(from.getId());
 		setAmount(from.getAmount());
-		setCId(from.getCId());
-		setUId(from.getUId());
-		setPId(from.getPId());
-		setPMId(from.getPMId());
+		setCurrency(from.getCurrency());
+		setUserId(from.getUserId());
+		setPayeeId(from.getPayeeId());
+		setPaymentMethodId(from.getPaymentMethodId());
 		setIsTransactionApproved(from.getIsTransactionApproved());
+		setCreatedAt(from.getCreatedAt());
+		setUpdatedAt(from.getUpdatedAt());
 	}
 
 	/**

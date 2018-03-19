@@ -7,6 +7,7 @@ package com.intuit.datasource.jooq.paymentdb.tables.daos;
 import com.intuit.datasource.jooq.paymentdb.tables.PaymentTransaction;
 import com.intuit.datasource.jooq.paymentdb.tables.records.PaymentTransactionRecord;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -73,31 +74,31 @@ public class PaymentTransactionDao extends DAOImpl<PaymentTransactionRecord, com
 	}
 
 	/**
-	 * Fetch records that have <code>c_id IN (values)</code>
+	 * Fetch records that have <code>currency IN (values)</code>
 	 */
-	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByCId(UInteger... values) {
-		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.C_ID, values);
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByCurrency(String... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.CURRENCY, values);
 	}
 
 	/**
-	 * Fetch records that have <code>u_id IN (values)</code>
+	 * Fetch records that have <code>user_id IN (values)</code>
 	 */
-	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByUId(UInteger... values) {
-		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.U_ID, values);
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByUserId(String... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.USER_ID, values);
 	}
 
 	/**
-	 * Fetch records that have <code>p_id IN (values)</code>
+	 * Fetch records that have <code>payee_id IN (values)</code>
 	 */
-	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByPId(UInteger... values) {
-		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.P_ID, values);
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByPayeeId(String... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.PAYEE_ID, values);
 	}
 
 	/**
-	 * Fetch records that have <code>p_m_id IN (values)</code>
+	 * Fetch records that have <code>payment_method_id IN (values)</code>
 	 */
-	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByPMId(UInteger... values) {
-		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.P_M_ID, values);
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByPaymentMethodId(String... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.PAYMENT_METHOD_ID, values);
 	}
 
 	/**
@@ -105,5 +106,19 @@ public class PaymentTransactionDao extends DAOImpl<PaymentTransactionRecord, com
 	 */
 	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByIsTransactionApproved(Byte... values) {
 		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.IS_TRANSACTION_APPROVED, values);
+	}
+
+	/**
+	 * Fetch records that have <code>created_at IN (values)</code>
+	 */
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByCreatedAt(Timestamp... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.CREATED_AT, values);
+	}
+
+	/**
+	 * Fetch records that have <code>updated_at IN (values)</code>
+	 */
+	public List<com.intuit.datasource.jooq.paymentdb.tables.pojos.PaymentTransaction> fetchByUpdatedAt(Timestamp... values) {
+		return fetch(PaymentTransaction.PAYMENT_TRANSACTION.UPDATED_AT, values);
 	}
 }

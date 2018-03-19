@@ -5,6 +5,7 @@ package com.intuit.datasource.jooq.paymentdb.tables.interfaces;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -45,44 +46,44 @@ public interface IPaymentTransaction extends Serializable {
 	public Double getAmount();
 
 	/**
-	 * Setter for <code>paymentdb.payment_transaction.c_id</code>.
+	 * Setter for <code>paymentdb.payment_transaction.currency</code>.
 	 */
-	public void setCId(UInteger value);
+	public void setCurrency(String value);
 
 	/**
-	 * Getter for <code>paymentdb.payment_transaction.c_id</code>.
+	 * Getter for <code>paymentdb.payment_transaction.currency</code>.
 	 */
-	public UInteger getCId();
+	public String getCurrency();
 
 	/**
-	 * Setter for <code>paymentdb.payment_transaction.u_id</code>.
+	 * Setter for <code>paymentdb.payment_transaction.user_id</code>.
 	 */
-	public void setUId(UInteger value);
+	public void setUserId(String value);
 
 	/**
-	 * Getter for <code>paymentdb.payment_transaction.u_id</code>.
+	 * Getter for <code>paymentdb.payment_transaction.user_id</code>.
 	 */
-	public UInteger getUId();
+	public String getUserId();
 
 	/**
-	 * Setter for <code>paymentdb.payment_transaction.p_id</code>.
+	 * Setter for <code>paymentdb.payment_transaction.payee_id</code>.
 	 */
-	public void setPId(UInteger value);
+	public void setPayeeId(String value);
 
 	/**
-	 * Getter for <code>paymentdb.payment_transaction.p_id</code>.
+	 * Getter for <code>paymentdb.payment_transaction.payee_id</code>.
 	 */
-	public UInteger getPId();
+	public String getPayeeId();
 
 	/**
-	 * Setter for <code>paymentdb.payment_transaction.p_m_id</code>.
+	 * Setter for <code>paymentdb.payment_transaction.payment_method_id</code>.
 	 */
-	public void setPMId(UInteger value);
+	public void setPaymentMethodId(String value);
 
 	/**
-	 * Getter for <code>paymentdb.payment_transaction.p_m_id</code>.
+	 * Getter for <code>paymentdb.payment_transaction.payment_method_id</code>.
 	 */
-	public UInteger getPMId();
+	public String getPaymentMethodId();
 
 	/**
 	 * Setter for <code>paymentdb.payment_transaction.is_transaction_approved</code>.
@@ -93,6 +94,26 @@ public interface IPaymentTransaction extends Serializable {
 	 * Getter for <code>paymentdb.payment_transaction.is_transaction_approved</code>.
 	 */
 	public Byte getIsTransactionApproved();
+
+	/**
+	 * Setter for <code>paymentdb.payment_transaction.created_at</code>.
+	 */
+	public void setCreatedAt(Timestamp value);
+
+	/**
+	 * Getter for <code>paymentdb.payment_transaction.created_at</code>.
+	 */
+	public Timestamp getCreatedAt();
+
+	/**
+	 * Setter for <code>paymentdb.payment_transaction.updated_at</code>.
+	 */
+	public void setUpdatedAt(Timestamp value);
+
+	/**
+	 * Getter for <code>paymentdb.payment_transaction.updated_at</code>.
+	 */
+	public Timestamp getUpdatedAt();
 
 	// -------------------------------------------------------------------------
 	// FROM and INTO

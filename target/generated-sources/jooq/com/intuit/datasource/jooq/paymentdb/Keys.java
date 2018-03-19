@@ -4,20 +4,11 @@
 package com.intuit.datasource.jooq.paymentdb;
 
 
-import com.intuit.datasource.jooq.paymentdb.tables.Currency;
-import com.intuit.datasource.jooq.paymentdb.tables.Payee;
-import com.intuit.datasource.jooq.paymentdb.tables.PaymentMethods;
 import com.intuit.datasource.jooq.paymentdb.tables.PaymentTransaction;
-import com.intuit.datasource.jooq.paymentdb.tables.User;
-import com.intuit.datasource.jooq.paymentdb.tables.records.CurrencyRecord;
-import com.intuit.datasource.jooq.paymentdb.tables.records.PayeeRecord;
-import com.intuit.datasource.jooq.paymentdb.tables.records.PaymentMethodsRecord;
 import com.intuit.datasource.jooq.paymentdb.tables.records.PaymentTransactionRecord;
-import com.intuit.datasource.jooq.paymentdb.tables.records.UserRecord;
 
 import javax.annotation.Generated;
 
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
@@ -42,65 +33,28 @@ public class Keys {
 	// IDENTITY definitions
 	// -------------------------------------------------------------------------
 
-	public static final Identity<CurrencyRecord, UInteger> IDENTITY_CURRENCY = Identities0.IDENTITY_CURRENCY;
-	public static final Identity<PayeeRecord, UInteger> IDENTITY_PAYEE = Identities0.IDENTITY_PAYEE;
-	public static final Identity<PaymentMethodsRecord, UInteger> IDENTITY_PAYMENT_METHODS = Identities0.IDENTITY_PAYMENT_METHODS;
 	public static final Identity<PaymentTransactionRecord, UInteger> IDENTITY_PAYMENT_TRANSACTION = Identities0.IDENTITY_PAYMENT_TRANSACTION;
-	public static final Identity<UserRecord, UInteger> IDENTITY_USER = Identities0.IDENTITY_USER;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_PRIMARY = UniqueKeys0.KEY_CURRENCY_PRIMARY;
-	public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_ID = UniqueKeys0.KEY_CURRENCY_ID;
-	public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_SHORT_NAME = UniqueKeys0.KEY_CURRENCY_SHORT_NAME;
-	public static final UniqueKey<PayeeRecord> KEY_PAYEE_PRIMARY = UniqueKeys0.KEY_PAYEE_PRIMARY;
-	public static final UniqueKey<PayeeRecord> KEY_PAYEE_VALUE = UniqueKeys0.KEY_PAYEE_VALUE;
-	public static final UniqueKey<PaymentMethodsRecord> KEY_PAYMENT_METHODS_PRIMARY = UniqueKeys0.KEY_PAYMENT_METHODS_PRIMARY;
-	public static final UniqueKey<PaymentMethodsRecord> KEY_PAYMENT_METHODS_VALUE = UniqueKeys0.KEY_PAYMENT_METHODS_VALUE;
 	public static final UniqueKey<PaymentTransactionRecord> KEY_PAYMENT_TRANSACTION_PRIMARY = UniqueKeys0.KEY_PAYMENT_TRANSACTION_PRIMARY;
-	public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = UniqueKeys0.KEY_USER_PRIMARY;
-	public static final UniqueKey<UserRecord> KEY_USER_VALUE = UniqueKeys0.KEY_USER_VALUE;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final ForeignKey<PaymentTransactionRecord, CurrencyRecord> PAYMENT_TRANSACTION_IBFK_1 = ForeignKeys0.PAYMENT_TRANSACTION_IBFK_1;
-	public static final ForeignKey<PaymentTransactionRecord, UserRecord> PAYMENT_TRANSACTION_IBFK_2 = ForeignKeys0.PAYMENT_TRANSACTION_IBFK_2;
-	public static final ForeignKey<PaymentTransactionRecord, PayeeRecord> PAYMENT_TRANSACTION_IBFK_3 = ForeignKeys0.PAYMENT_TRANSACTION_IBFK_3;
-	public static final ForeignKey<PaymentTransactionRecord, PaymentMethodsRecord> PAYMENT_TRANSACTION_IBFK_4 = ForeignKeys0.PAYMENT_TRANSACTION_IBFK_4;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
 	// -------------------------------------------------------------------------
 
 	private static class Identities0 extends AbstractKeys {
-		public static Identity<CurrencyRecord, UInteger> IDENTITY_CURRENCY = createIdentity(Currency.CURRENCY, Currency.CURRENCY.ID);
-		public static Identity<PayeeRecord, UInteger> IDENTITY_PAYEE = createIdentity(Payee.PAYEE, Payee.PAYEE.ID);
-		public static Identity<PaymentMethodsRecord, UInteger> IDENTITY_PAYMENT_METHODS = createIdentity(PaymentMethods.PAYMENT_METHODS, PaymentMethods.PAYMENT_METHODS.ID);
 		public static Identity<PaymentTransactionRecord, UInteger> IDENTITY_PAYMENT_TRANSACTION = createIdentity(PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.ID);
-		public static Identity<UserRecord, UInteger> IDENTITY_USER = createIdentity(User.USER, User.USER.ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
-		public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_PRIMARY = createUniqueKey(Currency.CURRENCY, Currency.CURRENCY.ID);
-		public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_ID = createUniqueKey(Currency.CURRENCY, Currency.CURRENCY.ID);
-		public static final UniqueKey<CurrencyRecord> KEY_CURRENCY_SHORT_NAME = createUniqueKey(Currency.CURRENCY, Currency.CURRENCY.SHORT_NAME);
-		public static final UniqueKey<PayeeRecord> KEY_PAYEE_PRIMARY = createUniqueKey(Payee.PAYEE, Payee.PAYEE.ID);
-		public static final UniqueKey<PayeeRecord> KEY_PAYEE_VALUE = createUniqueKey(Payee.PAYEE, Payee.PAYEE.VALUE);
-		public static final UniqueKey<PaymentMethodsRecord> KEY_PAYMENT_METHODS_PRIMARY = createUniqueKey(PaymentMethods.PAYMENT_METHODS, PaymentMethods.PAYMENT_METHODS.ID);
-		public static final UniqueKey<PaymentMethodsRecord> KEY_PAYMENT_METHODS_VALUE = createUniqueKey(PaymentMethods.PAYMENT_METHODS, PaymentMethods.PAYMENT_METHODS.VALUE);
 		public static final UniqueKey<PaymentTransactionRecord> KEY_PAYMENT_TRANSACTION_PRIMARY = createUniqueKey(PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.ID);
-		public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = createUniqueKey(User.USER, User.USER.ID);
-		public static final UniqueKey<UserRecord> KEY_USER_VALUE = createUniqueKey(User.USER, User.USER.VALUE);
-	}
-
-	private static class ForeignKeys0 extends AbstractKeys {
-		public static final ForeignKey<PaymentTransactionRecord, CurrencyRecord> PAYMENT_TRANSACTION_IBFK_1 = createForeignKey(com.intuit.datasource.jooq.paymentdb.Keys.KEY_CURRENCY_PRIMARY, PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.C_ID);
-		public static final ForeignKey<PaymentTransactionRecord, UserRecord> PAYMENT_TRANSACTION_IBFK_2 = createForeignKey(com.intuit.datasource.jooq.paymentdb.Keys.KEY_USER_PRIMARY, PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.U_ID);
-		public static final ForeignKey<PaymentTransactionRecord, PayeeRecord> PAYMENT_TRANSACTION_IBFK_3 = createForeignKey(com.intuit.datasource.jooq.paymentdb.Keys.KEY_PAYEE_PRIMARY, PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.P_ID);
-		public static final ForeignKey<PaymentTransactionRecord, PaymentMethodsRecord> PAYMENT_TRANSACTION_IBFK_4 = createForeignKey(com.intuit.datasource.jooq.paymentdb.Keys.KEY_PAYMENT_METHODS_PRIMARY, PaymentTransaction.PAYMENT_TRANSACTION, PaymentTransaction.PAYMENT_TRANSACTION.P_M_ID);
 	}
 }

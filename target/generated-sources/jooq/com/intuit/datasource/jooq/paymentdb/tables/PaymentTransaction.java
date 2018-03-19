@@ -8,13 +8,13 @@ import com.intuit.datasource.jooq.paymentdb.Keys;
 import com.intuit.datasource.jooq.paymentdb.Paymentdb;
 import com.intuit.datasource.jooq.paymentdb.tables.records.PaymentTransactionRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Generated;
 
 import org.jooq.Field;
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +36,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PaymentTransaction extends TableImpl<PaymentTransactionRecord> {
 
-	private static final long serialVersionUID = 1989525264;
+	private static final long serialVersionUID = 1096296556;
 
 	/**
 	 * The reference instance of <code>paymentdb.payment_transaction</code>
@@ -62,29 +62,39 @@ public class PaymentTransaction extends TableImpl<PaymentTransactionRecord> {
 	public final TableField<PaymentTransactionRecord, Double> AMOUNT = createField("amount", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "");
 
 	/**
-	 * The column <code>paymentdb.payment_transaction.c_id</code>.
+	 * The column <code>paymentdb.payment_transaction.currency</code>.
 	 */
-	public final TableField<PaymentTransactionRecord, UInteger> C_ID = createField("c_id", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+	public final TableField<PaymentTransactionRecord, String> CURRENCY = createField("currency", org.jooq.impl.SQLDataType.VARCHAR.length(3).nullable(false), this, "");
 
 	/**
-	 * The column <code>paymentdb.payment_transaction.u_id</code>.
+	 * The column <code>paymentdb.payment_transaction.user_id</code>.
 	 */
-	public final TableField<PaymentTransactionRecord, UInteger> U_ID = createField("u_id", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+	public final TableField<PaymentTransactionRecord, String> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.VARCHAR.length(36).nullable(false), this, "");
 
 	/**
-	 * The column <code>paymentdb.payment_transaction.p_id</code>.
+	 * The column <code>paymentdb.payment_transaction.payee_id</code>.
 	 */
-	public final TableField<PaymentTransactionRecord, UInteger> P_ID = createField("p_id", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+	public final TableField<PaymentTransactionRecord, String> PAYEE_ID = createField("payee_id", org.jooq.impl.SQLDataType.VARCHAR.length(36).nullable(false), this, "");
 
 	/**
-	 * The column <code>paymentdb.payment_transaction.p_m_id</code>.
+	 * The column <code>paymentdb.payment_transaction.payment_method_id</code>.
 	 */
-	public final TableField<PaymentTransactionRecord, UInteger> P_M_ID = createField("p_m_id", org.jooq.impl.SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+	public final TableField<PaymentTransactionRecord, String> PAYMENT_METHOD_ID = createField("payment_method_id", org.jooq.impl.SQLDataType.VARCHAR.length(36).nullable(false), this, "");
 
 	/**
 	 * The column <code>paymentdb.payment_transaction.is_transaction_approved</code>.
 	 */
 	public final TableField<PaymentTransactionRecord, Byte> IS_TRANSACTION_APPROVED = createField("is_transaction_approved", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
+
+	/**
+	 * The column <code>paymentdb.payment_transaction.created_at</code>.
+	 */
+	public final TableField<PaymentTransactionRecord, Timestamp> CREATED_AT = createField("created_at", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>paymentdb.payment_transaction.updated_at</code>.
+	 */
+	public final TableField<PaymentTransactionRecord, Timestamp> UPDATED_AT = createField("updated_at", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>paymentdb.payment_transaction</code> table reference
@@ -130,14 +140,6 @@ public class PaymentTransaction extends TableImpl<PaymentTransactionRecord> {
 	@Override
 	public List<UniqueKey<PaymentTransactionRecord>> getKeys() {
 		return Arrays.<UniqueKey<PaymentTransactionRecord>>asList(Keys.KEY_PAYMENT_TRANSACTION_PRIMARY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ForeignKey<PaymentTransactionRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<PaymentTransactionRecord, ?>>asList(Keys.PAYMENT_TRANSACTION_IBFK_1, Keys.PAYMENT_TRANSACTION_IBFK_2, Keys.PAYMENT_TRANSACTION_IBFK_3, Keys.PAYMENT_TRANSACTION_IBFK_4);
 	}
 
 	/**

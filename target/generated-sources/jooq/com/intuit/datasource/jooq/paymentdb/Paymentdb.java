@@ -4,11 +4,7 @@
 package com.intuit.datasource.jooq.paymentdb;
 
 
-import com.intuit.datasource.jooq.paymentdb.tables.Currency;
-import com.intuit.datasource.jooq.paymentdb.tables.Payee;
-import com.intuit.datasource.jooq.paymentdb.tables.PaymentMethods;
 import com.intuit.datasource.jooq.paymentdb.tables.PaymentTransaction;
-import com.intuit.datasource.jooq.paymentdb.tables.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +29,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Paymentdb extends SchemaImpl {
 
-	private static final long serialVersionUID = -1587910664;
+	private static final long serialVersionUID = -298456527;
 
 	/**
 	 * The reference instance of <code>paymentdb</code>
@@ -56,10 +52,6 @@ public class Paymentdb extends SchemaImpl {
 
 	private final List<Table<?>> getTables0() {
 		return Arrays.<Table<?>>asList(
-			Currency.CURRENCY,
-			Payee.PAYEE,
-			PaymentMethods.PAYMENT_METHODS,
-			PaymentTransaction.PAYMENT_TRANSACTION,
-			User.USER);
+			PaymentTransaction.PAYMENT_TRANSACTION);
 	}
 }

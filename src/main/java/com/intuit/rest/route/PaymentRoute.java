@@ -1,8 +1,9 @@
 package com.intuit.rest.route;
 
-import com.intuit.controller.PayeeController;
-import com.intuit.controller.PaymentController;
-import com.intuit.controller.PaymentMethodController;
+import com.intuit.controller.business_logic.PayeeController;
+import com.intuit.controller.business_logic.PaymentController;
+import com.intuit.controller.business_logic.PaymentMethodController;
+import com.intuit.controller.util.ProducerController;
 import com.intuit.model.Payment;
 import org.jooby.Result;
 import org.jooby.Results;
@@ -25,9 +26,11 @@ public class PaymentRoute {
     @Inject
     private PaymentController   paymentController;
 
+    @Inject private ProducerController producerController;
+
     @Path("/method")
     @GET
-    public Result getPaymentMethods() {
+    public Result getPaymentMethods() throws Exception {
         return Results.json(paymentMethodController.getMethods());
 
 
@@ -35,19 +38,23 @@ public class PaymentRoute {
 
     @Path("/payee")
     @GET
-    public Result getPayee() {
+    public Result getPayee() throws Exception {
         return Results.json(payeeController.getPayee());
     }
 
     @POST
     public Result createPayment(@Body Payment payment){
         try{
-            paymentController.validEntry(payment,true);
+            paymentController.validEntry(payment);
         } catch (Exception e){
             return Results.json(e).status(400);
         }
-        paymentController.sendToQueue(payment);
-        return Results.noContent();
+        try {
+            producerController.sendToQueue(payment);
+            return Results.noContent();
+        } catch (Exception e){
+            return Results.json(e).status(500);
+        }
     }
 
 }

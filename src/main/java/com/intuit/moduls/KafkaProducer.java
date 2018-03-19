@@ -12,7 +12,6 @@ public class KafkaProducer implements Jooby.Module {
     @Override
     public void configure(Env env, Config conf, Binder binder) throws Throwable {
 
-//        //TODO - move all hard code into config files!
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "all");
